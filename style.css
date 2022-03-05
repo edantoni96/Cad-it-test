@@ -1,0 +1,26 @@
+.salary_table{
+    border-collapse: collapse;
+    margin: 50px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+.salary_table thead th {
+    background-color:rgb(89, 172, 255);
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.salary_table tbody td {
+    text-align: left;
+    padding: 5px 10px;
+}
+
+.idr{
+    
+}

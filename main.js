@@ -1,7 +1,9 @@
+import currConv from './currConvert.js'
+
 async function loadData(url, path, table) {
-    //const tabHead = table.querySelector("thead");
+    const rate = await currConv();
     const tabBody = table.querySelector("tbody");
-    const response = await fetch(url); //.then(result => result.json()).then((output) => {console.log(output)});
+    const response = await fetch(url).then(response => {return response}).catch(error => console.log('ERROR'));
     const res_json = await response.json();
     const salary = await fetch(path);
     const {array} = await salary.json();
@@ -9,13 +11,22 @@ async function loadData(url, path, table) {
     tabBody.innerHTML = "";
     for (const salaryData of array) {
         var i = salaryData.id - 1;
-        Sdata[i] = salaryData.salaryInIDR;
+        const data = {};
+        data.idr = Math.round(salaryData.salaryInIDR *100)/100;
+        data.usd = Math.round(data.idr * rate * 100)/100;
+        Sdata[i] = data;
     }
     for (const object of res_json) {
-        //console.log(object);
         const {id,name,username,email,address,phone} = object;
-        const addressStr = address.street + ', ' + address.suite + ', '+address.city + ', '+ address.zipcode ;
-        //console.log(Sdata[id-1]);
+        const addressStr = `${address.street}, ${address.suite}, ${address.city}, ${address.zipcode}` ;
+        const us = Intl.NumberFormat('en-US',{
+            style: "currency",
+            currency: "USD"
+        });
+        const idr = Intl.NumberFormat('id-ID',{
+            style: "currency",
+            currency: "IDR"
+        });
         var dataElement = 
         `<tr>
             <td>${id}</td>
@@ -24,7 +35,8 @@ async function loadData(url, path, table) {
             <td>${email}</td>
             <td>${addressStr}</td>
             <td>${phone}</td>
-            <td>${Sdata[id-1]}</td>
+            <td class="idr">${idr.format(Sdata[id-1].idr)}</td>
+            <td class="idr">${us.format(Sdata[id-1].usd)}</td>
         </tr>`;
         tabBody.innerHTML += dataElement;
     }
