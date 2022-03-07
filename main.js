@@ -35,8 +35,8 @@ async function loadData(url, path, table) {
             <td>${email}</td>
             <td>${addressStr}</td>
             <td>${phone}</td>
-            <td class="idr">${idr.format(Sdata[id-1].idr)}</td>
-            <td class="idr">${us.format(Sdata[id-1].usd)}</td>
+            <td>${idr.format(Sdata[id-1].idr)}</td>
+            <td>${us.format(Sdata[id-1].usd)}</td>
         </tr>`;
         tabBody.innerHTML += dataElement;
     }
